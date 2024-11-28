@@ -1,4 +1,3 @@
-
 <nav x-data="{ open: false }" class="bg-gray-900 border-b border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,6 +27,10 @@
                     </x-nav-link>
                     <x-nav-link :href="route('sewa')" :active="request()->routeIs('sewa')" class="text-white hover:text-yellow-300 transition">
                         {{ __('Sewa') }}
+                    </x-nav-link>
+                    <!-- New History Link -->
+                    <x-nav-link :href="route('history')" :active="request()->routeIs('history')" class="text-white hover:text-yellow-300 transition">
+                        {{ __('History') }}
                     </x-nav-link>
                     @if (Auth () -> check() && Auth()->user()->role == 'admin')
                     <x-nav-link :href="route('admin_create')" :active="request()->routeIs('admin_create')" class="text-white hover:text-yellow-300 transition">
@@ -94,8 +97,12 @@
             <x-responsive-nav-link :href="route('about')" :active="request()->routeIs('about')" class="text-white hover:bg-gray-700">
                 {{ __('About') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-white hover:bg-gray-700">
+            <x-responsive-nav-link :href="route('sewa')" :active="request()->routeIs('sewa')" class="text-white hover:bg-gray-700">
                 {{ __('Sewa') }}
+            </x-responsive-nav-link>
+            <!-- New History Link -->
+            <x-responsive-nav-link :href="route('history')" :active="request()->routeIs('history')" class="text-white hover:bg-gray-700">
+                {{ __('History') }}
             </x-responsive-nav-link>
         </div>
 

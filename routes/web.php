@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OutdoorController;
 use Illuminate\Support\Facades\Route;
@@ -44,7 +45,9 @@ Route::middleware(['auth',RoleMiddleware::class.':admin'])->group(function () {
     Route::get('/admin/sewa', [AdminController::class, 'showSewa'])->name('admin.sewa')->middleware('auth');
 });
 
+Route::get('/history', [OutdoorController::class, 'history'])->middleware('auth')->name('history');
 
+Route::patch('/update-status/{id}', [OrderController::class, 'updateStatus'])->name('update.status');
 
 
 require __DIR__.'/auth.php';

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -16,8 +17,6 @@ class OrderController extends Controller
             'message' => 'nullable|string',      // Pesan (opsional)
         ]);
 
-
-
         // Simpan data ke database
         Order::create([
             'items' => json_encode($validated['items']), // Barang disimpan sebagai JSON
@@ -30,6 +29,15 @@ class OrderController extends Controller
         return redirect()->back()->with('success', 'Pesanan berhasil dikirim.');
     }
 
-    
+    public function updateStatus(Request $request, $id)
+{
+    $request->validate([
+        'status' => 'required|in:Proses,Selesai,Batal',
+    ]);
+
+    DB::table('sewa')->where('id_sewa', $id)->update(['status' => $request->status]);
+
+    return redirect()->back()->with('success', 'Status berhasil diperbarui.');
+}
 }
     

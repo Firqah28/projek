@@ -35,6 +35,11 @@
                 </div>
             </div>
 
+                    <div class="text-center mt-8">
+                        <a href="/sewa" class="bg-yellow-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-yellow-700">
+                        Produk Selengkapnya!
+                        </a>
+                    </div>
             <div class="mt-12">
             <iframe 
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.4653935749834!2d119.42193887474228!3d-5.189281894788247!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbee30596ed003d%3A0x24bfd67d41822e2!2sSetia%20Outdoor%20Dg.%20Tata%203!5e0!3m2!1sid!2sid!4v1730969141778!5m2!1sid!2sid" 
