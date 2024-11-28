@@ -32,11 +32,6 @@
                     <x-nav-link :href="route('history')" :active="request()->routeIs('history')" class="text-white hover:text-yellow-300 transition">
                         {{ __('History') }}
                     </x-nav-link>
-                    @if (Auth () -> check() && Auth()->user()->role == 'admin')
-                    <x-nav-link :href="route('admin_create')" :active="request()->routeIs('admin_create')" class="text-white hover:text-yellow-300 transition">
-                        {{ __('Admin Create') }}
-                    </x-nav-link>
-                    @endif
                 </div>
             </div>
 
@@ -56,12 +51,19 @@
                         <x-dropdown-link :href="route('profile.edit')" class="text-gray-700 hover:bg-gray-100">
                             {{ __('Profile') }}
                         </x-dropdown-link>
-                        @if (Auth()->check() && Auth()->user()->role == 'admin')
-                            <x-responsive-nav-link :href="route('admin.outdoor-items')" class="text-gray-700 hover:bg-white">
-                                {{ __('Admin Panel') }}
-                            </x-responsive-nav-link>
-                        @endif
 
+                        @if (Auth()->check() && Auth()->user()->role == 'admin')
+                            <!-- Admin Dropdown Menu -->
+                            <x-dropdown-link :href="route('admin_create')" class="text-gray-700 hover:bg-gray-100">
+                                {{ __('Admin Create') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('admin.outdoor-items')" class="text-gray-700 hover:bg-gray-100">
+                                {{ __('Admin Outdoor Items') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('admin.sewa')" class="text-gray-700 hover:bg-gray-100">
+                                {{ __('Admin Sewa') }}
+                            </x-dropdown-link>
+                        @endif
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -100,7 +102,6 @@
             <x-responsive-nav-link :href="route('sewa')" :active="request()->routeIs('sewa')" class="text-white hover:bg-gray-700">
                 {{ __('Sewa') }}
             </x-responsive-nav-link>
-            <!-- New History Link -->
             <x-responsive-nav-link :href="route('history')" :active="request()->routeIs('history')" class="text-white hover:bg-gray-700">
                 {{ __('History') }}
             </x-responsive-nav-link>
@@ -116,12 +117,18 @@
                 <x-responsive-nav-link :href="route('profile.edit')" class="text-white hover:bg-gray-700">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
-                @if (Auth () -> check() && Auth()->user()->role == 'admin')
+
+                @if (Auth()->check() && Auth()->user()->role == 'admin')
+                    <x-responsive-nav-link :href="route('admin_create')" class="text-white hover:bg-gray-700">
+                        {{ __('Admin Create') }}
+                    </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('admin.outdoor-items')" class="text-white hover:bg-gray-700">
-                        {{ __('Admin Panel') }}
+                        {{ __('Admin Outdoor Items') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.sewa')" class="text-white hover:bg-gray-700">
+                        {{ __('Admin Sewa') }}
                     </x-responsive-nav-link>
                 @endif
-
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

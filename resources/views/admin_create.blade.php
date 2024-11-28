@@ -33,12 +33,6 @@
                 <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded-lg transition duration-200">Tambah Barang</button>
             </div>
         </form>
-
-
-        <div>
-            <p>Riwayat pemesanan</p>
-
-        </div>
     </div>
 
     <footer class="bg-gray-800 text-gray-100 py-10">

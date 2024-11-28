@@ -19,6 +19,8 @@
                             <th class="px-4 py-2">Total Harga</th>
                             <th class="px-4 py-2">Metode Pembayaran</th>
                             <th class="px-4 py-2">Bukti Pembayaran</th>
+                            <th class="px-4 py-2">Tanggal Pemesanan</th>
+                            <th class="px-4 py-2">Tanggal Pengembalian</th>
                             <th class="px-4 py-2">Status</th>
                         </tr>
                     </thead>
@@ -31,11 +33,20 @@
                                 <td class="px-4 py-2">Rp{{ number_format($order->total_harga, 0, ',', '.') }}</td>
                                 <td class="px-4 py-2">{{ $order->metode_pembayaran }}</td>
                                 <td class="px-4 py-2">
-                                    @if ($order->metode_pembayaran == 'Transfer Bank' && $order->bukti_pembayaran)
-                                        <a href="{{ asset('uploads/bukti_pembayaran/' . $order->bukti_pembayaran) }}" target="_blank" class="text-yellow-500 underline">Lihat Bukti</a>
+                                @if ($order->metode_pembayaran == 'Transfer Bank' && $order->bukti_pembayaran)
+                                        <a href="{{ asset($order->bukti_pembayaran) }}" target="_blank" class="text-yellow-500 underline">Lihat Bukti</a>
                                     @else
-                                        Tidak Ada Bukti
+                                        <span class="text-gray-400">Tidak Ada Bukti</span>
                                     @endif
+                                </td>
+                                <!-- Menampilkan Tanggal Pemesanan -->
+                                <td class="px-4 py-3">
+                                    {{ \Carbon\Carbon::parse($order->tanggal_pemesanan)->format('d-m-Y') }}
+                                </td>
+
+                                <!-- Menampilkan Tanggal Pengembalian -->
+                                <td class="px-4 py-3">
+                                    {{ \Carbon\Carbon::parse($order->tanggal_pengembalian)->format('d-m-Y') }}
                                 </td>
                                 <td class="px-4 py-2">{{ $order->status }}</td>
                             </tr>

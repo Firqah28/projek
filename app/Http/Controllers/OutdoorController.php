@@ -26,6 +26,8 @@ class OutdoorController extends Controller
             'metode_pembayaran' => 'required|string|in:Transfer Bank,Tunai', // Metode pembayaran
             'total_harga' => 'required|numeric|min:0',
             'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi bukti pembayaran
+            'tanggal_pemesanan' => 'required|date', // Tanggal pemesanan
+            'tanggal_pengembalian' => 'required|date', // Tanggal pengembalian
         ]);
 
         $userId = auth()->id(); // Automatically fetch authenticated user ID
@@ -66,6 +68,8 @@ class OutdoorController extends Controller
                     'metode_pembayaran' => $validated['metode_pembayaran'], // Save payment method
                     'total_harga' => $validated['total_harga'],
                     'bukti_pembayaran' => $buktiPembayaranPath, // Path file bukti pembayaran
+                    'tanggal_pemesanan' => $validated['tanggal_pemesanan'], // Save tanggal pemesanan
+                    'tanggal_pengembalian' => $validated['tanggal_pengembalian'], // Save tanggal pengembalian
                 ]);
             }
         });
@@ -91,6 +95,7 @@ class OutdoorController extends Controller
         return view('history', compact('orders'));
     }
 
+    
     
     
 }
