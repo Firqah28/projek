@@ -13,15 +13,16 @@
                 <table class="min-w-full table-auto bg-gray-900 text-white border border-gray-700">
                     <thead>
                         <tr class="text-left bg-gray-700">
-                            <th class="px-4 py-2">#</th>
-                            <th class="px-4 py-2">Barang</th>
-                            <th class="px-4 py-2">Jumlah</th>
-                            <th class="px-4 py-2">Total Harga</th>
-                            <th class="px-4 py-2">Metode Pembayaran</th>
-                            <th class="px-4 py-2">Bukti Pembayaran</th>
-                            <th class="px-4 py-2">Tanggal Pemesanan</th>
-                            <th class="px-4 py-2">Tanggal Pengembalian</th>
-                            <th class="px-4 py-2">Status</th>
+                            <th class="border px-4 py-2">No</th>
+                            <th class="border px-4 py-2">Barang</th>
+                            <th class="border px-4 py-2">Jumlah</th>
+                            <th class="border px-4 py-2">Total Harga</th>
+                            <th class="border px-4 py-2">Metode Pembayaran</th>
+                            <th class="border px-4 py-2">Bukti Pembayaran</th>
+                            <th class="border px-4 py-2">Tanggal Pemesanan</th>
+                            <th class="border px-4 py-2">Tanggal Pengembalian</th>
+                            <th class="border px-4 py-2">Jaminan</th> <!-- Tambahkan kolom jaminan -->
+                            <th class="border px-4 py-2">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,7 +49,8 @@
                                 <td class="px-4 py-3">
                                     {{ \Carbon\Carbon::parse($order->tanggal_pengembalian)->format('d-m-Y') }}
                                 </td>
-                                <td class="px-4 py-2">{{ $order->status }}</td>
+                                <td class="px-4 py-3">{{ $order->jaminan }}</td> <!-- Tampilkan jaminan -->
+                                <td class="border px-4 py-2">{{ $order->status }}</td>
                             </tr>
                         @empty
                             <tr>

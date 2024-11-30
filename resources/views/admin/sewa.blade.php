@@ -13,18 +13,19 @@
                 <table class="min-w-full table-auto bg-gray-900 bg-opacity-70 text-white border border-gray-700 rounded-lg">
                     <thead>
                         <tr class="text-left bg-gray-700">
-                            <th class="px-4 py-3">#</th>
-                            <th class="px-4 py-3">Nama User</th>
-                            <th class="px-4 py-3">Barang</th>
-                            <th class="px-4 py-3">Jumlah</th>
-                            <th class="px-4 py-3">Total Harga</th>
-                            <th class="px-4 py-3">No HP</th>
-                            <th class="px-4 py-3">Alamat</th>
-                            <th class="px-4 py-3">Metode Pembayaran</th>
-                            <th class="px-4 py-3">Tanggal Pemesanan</th> <!-- Kolom tanggal pemesanan -->
-                            <th class="px-4 py-3">Tanggal Pengembalian</th> <!-- Kolom tanggal pengembalian -->
-                            <th class="px-4 py-3">Bukti Pembayaran</th>
-                            <th class="px-4 py-3">Status</th>
+                            <th class="border px-4 py-2">#</th>
+                            <th class="border px-4 py-2">Nama User</th>
+                            <th class="border px-4 py-2">Barang</th>
+                            <th class="border px-4 py-2">Jumlah</th>
+                            <th class="border px-4 py-2">Total Harga</th>
+                            <th class="border px-4 py-2">No HP</th>
+                            <th class="border px-4 py-2">Alamat</th>
+                            <th class="border px-4 py-2">Metode Pembayaran</th>
+                            <th class="border px-4 py-2">Tanggal Pemesanan</th> <!-- Kolom tanggal pemesanan -->
+                            <th class="border px-4 py-2">Tanggal Pengembalian</th> <!-- Kolom tanggal pengembalian -->
+                            <th class="border px-4 py-2">Jaminan</th> <!-- Tambahkan kolom jaminan -->
+                            <th class="border px-4 py-2">Bukti Pembayaran</th>
+                            <th class="border px-4 py-2">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,6 +49,8 @@
                                 <td class="px-4 py-3">
                                     {{ \Carbon\Carbon::parse($sewa->tanggal_pengembalian)->format('d-m-Y') }}
                                 </td>
+
+                                <td class="px-4 py-3">{{ $sewa->jaminan }}</td> <!-- Tampilkan jaminan -->
 
                                 <td class="px-4 py-3">
                                     @if ($sewa->metode_pembayaran == 'Transfer Bank' && $sewa->bukti_pembayaran)

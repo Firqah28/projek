@@ -82,106 +82,128 @@
 
             <!-- Order Form -->
             <div class="w-full bg-gray-900 bg-opacity-75 p-8 rounded-lg shadow-lg">
-                <form method="POST" action="{{ route('outdoor.placeOrder') }}" enctype="multipart/form-data">
-                    @csrf
-                    <p class="text-2xl text-center mb-6">Form Pemesanan</p>
+            <form method="POST" action="{{ route('outdoor.placeOrder') }}" enctype="multipart/form-data" id="orderForm">
+    @csrf
+    <p class="text-2xl text-center mb-6">Form Pemesanan</p>
 
-                    <!-- Select Items -->
-                    <div class="mb-4">
-                    <label class="block text-sm font-medium text-white mb-2">Pilih Barang</label>
-                    <div>
-                         <small class="text-gray-400">Centang barang yang ingin Anda pilih.</small>
-                    </div>
-                    <div class="space-y-6">
-                        @foreach ($groupedItems as $kategori => $items)
-                            <!-- Kategori -->
-                            <div>
-                                <h3 class="text-lg font-bold text-yellow-500 mb-4">{{ $kategori }}</h3>
-                                
-                                <!-- Barang dalam kategori -->
-                                <div class="space-y-2">
-                                    @foreach ($items as $item)
-                                        <div class="flex items-center">
-                                            <!-- Checkbox untuk barang -->
-                                            <input 
-                                                type="checkbox" 
-                                                id="item-{{ $item->id }}" 
-                                                name="items[]" 
-                                                value="{{ $item->id }}" 
-                                                data-price="{{ $item->price }}" 
-                                                class="w-4 h-4 text-yellow-600 bg-gray-800 border-gray-700 rounded focus:ring-yellow-500">
-                                            
-                                            <!-- Label untuk barang -->
-                                            <label for="item-{{ $item->id }}" class="ml-2 text-sm text-white">
-                                                {{ $item->name }} (Stok: {{ $item->stok }}) (Rp{{ number_format($item->price, 0, ',', '.') }})
-                                            </label>
+    <!-- Select Items -->
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-white mb-2">Pilih Barang</label>
+        <div>
+            <small class="text-gray-400">Centang barang yang ingin Anda pilih.</small>
+        </div>
+        <div class="space-y-6">
+            @foreach ($groupedItems as $kategori => $items)
+                <!-- Kategori -->
+                <div>
+                    <h3 class="text-lg font-bold text-yellow-500 mb-4">{{ $kategori }}</h3>
+                    <!-- Barang dalam kategori -->
+                    <div class="space-y-2">
+                        @foreach ($items as $item)
+                        @if ($item->stok > 0) <!-- Tampilkan hanya barang dengan stok lebih dari 0 -->
+                        <div class="flex items-center">
+                            <!-- Checkbox untuk barang -->
+                            <input 
+                                type="checkbox" 
+                                id="item-{{ $item->id }}" 
+                                name="items[]" 
+                                value="{{ $item->id }}" 
+                                data-price="{{ $item->price }}" 
+                                class="w-4 h-4 text-yellow-600 bg-gray-800 border-gray-700 rounded focus:ring-yellow-500">
+                            
+                            <!-- Label untuk barang -->
+                            <label for="item-{{ $item->id }}" class="ml-2 text-sm text-white">
+                                {{ $item->name }} (Stok: {{ $item->stok }}) (Rp{{ number_format($item->price, 0, ',', '.') }})
+                            </label>
 
-                                            <!-- Input jumlah barang -->
-                                            <input 
-                                                type="number" 
-                                                id="quantity-{{ $item->id }}" 
-                                                name="quantities[{{ $item->id }}]" 
-                                                min="1" 
-                                                max="{{ $item->stok }}" 
-                                                class="ml-4 w-16 px-2 py-1 bg-gray-800 text-white rounded-lg focus:outline-none" 
-                                                placeholder="Num" 
-                                                disabled>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
+                            <!-- Input jumlah barang -->
+                            <input 
+                                type="number" 
+                                id="quantity-{{ $item->id }}" 
+                                name="quantities[{{ $item->id }}]" 
+                                min="1" 
+                                max="{{ $item->stok }}" 
+                                class="ml-4 w-16 px-2 py-1 bg-gray-800 text-white rounded-lg focus:outline-none" 
+                                placeholder="Num" 
+                                disabled>
+                        </div>
+                    @endif
                         @endforeach
                     </div>
-                <div  class="w-full bg-gray-900 p-8 rounded-lg shadow-lg">
-
-
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-white mb-1" for="phone">No HP</label>
-                                <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg focus:outline-none" placeholder="Masukkan Nomor Telepon Anda">
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-white mb-1" for="alamat">Alamat</label>
-                                <input type="text" id="alamat" name="alamat" class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg focus:outline-none" placeholder="Alamat Anda">
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-white mb-1" for="payment_method">Metode Pembayaran</label>
-                                <select id="metode_pembayaran" name="metode_pembayaran"
-                                    class="w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500">
-                                    <option value="" disabled selected hidden>Pilih Metode Pembayaran</option>
-                                    <option value="Transfer Bank">Transfer Bank - BRI 7312097540997</option>
-                                    <option value="Tunai">Tunai</option>
-                                </select>
-
-                                <div class="mb-4" id="bukti-pembayaran-container" style="display: none;">
-                                    <label for="bukti_pembayaran" class="block text-sm font-medium text-white">Unggah Bukti Pembayaran</label>
-                                    <input type="file" id="bukti_pembayaran" name="bukti_pembayaran" class="w-full bg-gray-800 text-white" accept="image/*">
-                                </div>
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-white mb-1" for="tanggal_pemesanan">Tanggal Pemesanan</label>
-                                <input type="date" id="tanggal_pemesanan" name="tanggal_pemesanan" class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg focus:outline-none">
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-white mb-1" for="tanggal_pengembalian">Tanggal Pengembalian</label>
-                                <input type="date" id="tanggal_pengembalian" name="tanggal_pengembalian" class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg focus:outline-none">
-                            </div>
                 </div>
+            @endforeach
+        </div>
+    </div>
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-white mb-1" for="total_price_display">Total Harga</label>
-                    <input type="text" id="total_price_display" readonly 
-                        class="w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded-lg focus:outline-none" placeholder="Total Harga">
-                    <!-- Hidden input untuk mengirim total harga ke server -->
-                    <input type="hidden" id="total_price" name="total_harga">
-                </div>
-                        <button type="submit" class="w-full bg-yellow-600 text-white py-2 rounded-lg font-semibold hover:bg-yellow-700 transition-colors duration-300">
-                            Kirim Pesanan
-                        </button>
-                    </form>
+    <div class="w-full bg-gray-900 p-8 rounded-lg shadow-lg">
+        <!-- No HP -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-white mb-1" for="phone">No HP</label>
+            <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg focus:outline-none" placeholder="Masukkan Nomor Telepon Anda" required>
+        </div>
+
+        <!-- Alamat -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-white mb-1" for="alamat">Alamat</label>
+            <input type="text" id="alamat" name="alamat" class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg focus:outline-none" placeholder="Alamat Anda" required>
+        </div>
+
+        <!-- Metode Pembayaran -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-white mb-1" for="metode_pembayaran">Metode Pembayaran</label>
+            <select id="metode_pembayaran" name="metode_pembayaran"
+                class="w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" required>
+                <option value="" disabled selected hidden>Pilih Metode Pembayaran</option>
+                <option value="Transfer Bank">Transfer Bank - BRI 7312097540997</option>
+                <option value="Tunai">Tunai</option>
+            </select>
+
+            <div class="mb-4" id="bukti-pembayaran-container" style="display: none;">
+                <label for="bukti_pembayaran" class="block text-sm font-medium text-white">Unggah Bukti Pembayaran</label>
+                <input type="file" id="bukti_pembayaran" name="bukti_pembayaran" class="w-full bg-gray-800 text-white" accept="image/*">
+            </div>
+        </div>
+
+        <!-- Tanggal Pemesanan -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-white mb-1" for="tanggal_pemesanan">Tanggal Pemesanan</label>
+            <input type="date" id="tanggal_pemesanan" name="tanggal_pemesanan" class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg focus:outline-none" required>
+        </div>
+
+        <!-- Tanggal Pengembalian -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-white mb-1" for="tanggal_pengembalian">Tanggal Pengembalian</label>
+            <input type="date" id="tanggal_pengembalian" name="tanggal_pengembalian" class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg focus:outline-none" required>
+        </div>
+
+        <!-- Jaminan -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-white mb-1" for="jaminan">Jaminan</label>
+            <select id="jaminan" name="jaminan" 
+                class="w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" required>
+                <option value="" disabled selected hidden>Pilih Jaminan</option>
+                <option value="KTP">KTP</option>
+                <option value="SIM">SIM</option>
+                <option value="Paspor">Paspor</option>
+                <option value="Lainnya">Lainnya</option>
+            </select>
+        </div>
+
+        <!-- Total Harga -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-white mb-1" for="total_price_display">Total Harga</label>
+            <input type="text" id="total_price_display" readonly 
+                class="w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded-lg focus:outline-none" placeholder="Total Harga">
+            <input type="hidden" id="total_price" name="total_harga">
+        </div>
+
+        <!-- Tombol Submit -->
+        <button type="submit" class="w-full bg-yellow-600 text-white py-2 rounded-lg font-semibold hover:bg-yellow-700 transition-colors duration-300">
+            Kirim Pesanan
+        </button>
+    </div>
+</form>
+
         </div>
 
             <!-- Map (Bagian Bawah) -->
@@ -194,63 +216,108 @@
 
 
     <script>
-    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-        checkbox.addEventListener('change', function () {
-            const quantityInput = document.querySelector(`#quantity-${this.value}`);
-            quantityInput.disabled = !this.checked;
+   document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function () {
+        const quantityInput = document.querySelector(`#quantity-${this.value}`);
+        if (this.checked) {
+            quantityInput.disabled = false; // Aktifkan input jumlah barang
+            quantityInput.value = 1; // Isi otomatis dengan angka 1
+        } else {
+            quantityInput.disabled = true; // Nonaktifkan input jumlah barang
+            quantityInput.value = ''; // Reset nilai jika checkbox tidak dicentang
+        }
 
-            if (!this.checked) {
-                quantityInput.value = ''; // Reset the value
-            }
+        updateTotalPrice(); // Hitung ulang total harga
+    });
+});
 
-            updateTotalPrice(); // Recalculate the total price
-        });
+document.querySelectorAll('input[type="number"]').forEach(input => {
+    input.addEventListener('input', updateTotalPrice); // Perbarui total harga saat jumlah barang berubah
+});
+
+function updateTotalPrice() {
+    let totalPrice = 0;
+
+    document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+        const itemId = checkbox.value;
+        const quantityInput = document.querySelector(`#quantity-${itemId}`);
+        const quantity = parseInt(quantityInput.value) || 0;
+        const price = parseFloat(checkbox.dataset.price) || 0;
+
+        totalPrice += quantity * price;
     });
 
-    document.querySelectorAll('input[type="number"]').forEach(input => {
-        input.addEventListener('input', updateTotalPrice); // Update total price when quantity changes
+    // Perbarui tampilan total harga
+    document.querySelector('#total_price_display').value = totalPrice.toLocaleString('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
     });
 
-    function updateTotalPrice() {
-        let totalPrice = 0;
+    // Perbarui input tersembunyi untuk total harga
+    document.querySelector('#total_price').value = totalPrice;
+}
 
-        document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
-            const itemId = checkbox.value;
-            const quantityInput = document.querySelector(`#quantity-${itemId}`);
-            const quantity = parseInt(quantityInput.value) || 0;
-            const price = parseFloat(checkbox.dataset.price) || 0;
+document.querySelector('#metode_pembayaran').addEventListener('change', function () {
+    const container = document.querySelector('#bukti-pembayaran-container');
+    if (this.value === 'Transfer Bank') {
+        container.style.display = 'block';
+    } else {
+        container.style.display = 'none';
+    }
+});
 
-            totalPrice += quantity * price;
-        });
+// Fungsi untuk membuka modal
+function openModal(id) {
+    document.getElementById(`modal-${id}`).classList.remove('hidden');
+}
 
-        // Update the total price display
-        document.querySelector('#total_price_display').value = totalPrice.toLocaleString('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-        });
+// Fungsi untuk menutup modal
+function closeModal(id) {
+    document.getElementById(`modal-${id}`).classList.add('hidden');
+}
 
-        // Update the hidden total price input (sent to the server)
-        document.querySelector('#total_price').value = totalPrice;
+document.getElementById('orderForm').addEventListener('submit', function (e) {
+    let isValid = true;
+
+    // Validasi kolom wajib
+    const requiredInputs = document.querySelectorAll('#orderForm [required]');
+    requiredInputs.forEach(input => {
+        if (!input.value.trim()) {
+            isValid = false;
+
+            // Tambahkan border merah untuk input kosong
+            input.classList.add('border-red-500');
+            input.classList.remove('border-gray-700');
+        } else {
+            // Kembali ke border normal jika diisi
+            input.classList.remove('border-red-500');
+            input.classList.add('border-gray-700');
+        }
+    });
+
+    // Validasi barang (checkbox harus dicentang)
+    const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked');
+    if (checkedItems.length === 0) {
+        isValid = false;
+        alert('Anda harus memilih setidaknya satu barang untuk disewa.');
     }
 
-    document.querySelector('#metode_pembayaran').addEventListener('change', function () {
-        const container = document.querySelector('#bukti-pembayaran-container');
-        if (this.value === 'Transfer Bank') {
-            container.style.display = 'block';
-        } else {
-            container.style.display = 'none';
-        }
-    });
+    // Jika tidak valid, cegah submit
+    if (!isValid) {
+        e.preventDefault();
+        return;
+    }
+});
 
-    // Function to open modal
-    function openModal(id) {
-            document.getElementById(`modal-${id}`).classList.remove('hidden');
-        }
+document.querySelector('#metode_pembayaran').addEventListener('change', function () {
+    const buktiPembayaranContainer = document.getElementById('bukti-pembayaran-container');
+    if (this.value === 'Transfer Bank') {
+        buktiPembayaranContainer.style.display = 'block';
+    } else {
+        buktiPembayaranContainer.style.display = 'none';
+    }
+});
 
-        // Function to close modal
-        function closeModal(id) {
-            document.getElementById(`modal-${id}`).classList.add('hidden');
-        }
     </script>
 
 </x-app-layout>

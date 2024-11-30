@@ -27,6 +27,7 @@ class OutdoorController extends Controller
             'total_harga' => 'required|numeric|min:0',
             'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi bukti pembayaran
             'tanggal_pemesanan' => 'required|date', // Tanggal pemesanan
+            'jaminan' => 'required|string', // Validasi untuk jaminan
             'tanggal_pengembalian' => 'required|date', // Tanggal pengembalian
         ]);
 
@@ -70,10 +71,12 @@ class OutdoorController extends Controller
                     'bukti_pembayaran' => $buktiPembayaranPath, // Path file bukti pembayaran
                     'tanggal_pemesanan' => $validated['tanggal_pemesanan'], // Save tanggal pemesanan
                     'tanggal_pengembalian' => $validated['tanggal_pengembalian'], // Save tanggal pengembalian
+                    'jaminan' => $validated['jaminan'], // Menambahkan jaminan ke dalam tabel
                 ]);
             }
         });
-
+        
+        
         return redirect()->back()->with('success', 'Order placed successfully!');
     }
 
