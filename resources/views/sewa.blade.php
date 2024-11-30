@@ -9,71 +9,100 @@
     <div class="relative py-12 min-h-screen">
         <!-- Background Image -->
         <img src="{{ asset('img/gambarbg.jpg') }}" class="absolute inset-0 w-full h-full object-cover -z-10" alt="">
+
+        <!-- Heading -->
         <h3 class="text-center text-3xl font-bold text-white mb-8">Barang yang tersedia</h3>
 
-        <!-- Jaket Items Grid -->
-        <div class="flex flex-wrap gap-4 mt-12 justify-center">
-            <!-- Item -->
-            @foreach ($outdoorItems as $item)
-            <div class="w-48">
-        <div class="relative group w-full overflow-hidden rounded-lg hover:scale-105 transition-transform duration-300">
-            <!-- Gambar -->
-            <img src="{{ asset('uploads/' . $item->image) }}" alt="{{ $item->name }}" 
-                class="w-full h-full object-cover rounded-md group-hover:blur-sm transition duration-300">
 
-            <!-- Overlay -->
-            <div class="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-30 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <p class="text-lg font-bold text-center">{{ $item->name }}</p>
-                <p class="mt-2 text-sm text-center">Harga: Rp{{ number_format($item->price, 0, ',', '.') }}</p>
-                <p class="mt-1 text-sm text-center">Stok: {{ $item->stok }}</p>
-                <button onclick="openModal('{{ $item->id }}')" class="mt-2 px-4 py-2 bg-yellow-500 text-white rounded-md">
-                    Detail
-                </button>
-            </div>
-        </div>
-    </div>
+        <!-- Product Categories and Items -->
+        <div class="container mx-auto p-4">
+            @foreach ($groupedItems as $kategori => $items)
+                <!-- Display Category -->
+                <h3 class="text-2xl font-bold mb-4 text-center text-white">Kategori: {{ $kategori }}</h3>
+                
+                <!-- Display Products in Category -->
+                <div class="flex flex-wrap gap-4 justify-center">
+                    @foreach ($items as $item)
+                        <div class="w-64 rounded-lg shadow-md p-4">
+                            <!-- Product Image -->
+                            <div class="relative group w-full h-48 overflow-hidden rounded-md">
+                                <img src="{{ asset('uploads/' . $item->image) }}" alt="{{ $item->name }}" 
+                                     alt="{{ $item->name }}" 
+                                     class="w-full h-full object-cover rounded-md cursor-pointer group-hover:scale-105 transition-transform duration-300"
+                                     onclick="openModal('{{ $item->id }}')">
+                            </div>
+                            
+                            <!-- Product Information -->
+                            <div class="mt-4">
+                                <h4 class="text-lg font-bold text-white text-center">{{ $item->name }}</h4>
+                                <p class="text-sm text-white mt-2 text-center">Harga: Rp{{ number_format($item->price, 0, ',', '.') }}</p>
+                                <p class="text-sm text-white mt-2 text-center">Stok: {{ $item->stok }}</p>
+                            </div>
+                        </div>
 
-    <!-- Modal -->
-    <div id="modal-{{ $item->id }}" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-gray-800 rounded-lg shadow-lg p-6 w-96">
-            <h3 class="text-lg font-bold text-white text-center mb-4">{{ $item->name }}</h3>
-            <img src="{{ asset('uploads/' . $item->image) }}" alt="{{ $item->name }}" class="w-full h-48 object-cover rounded-md mb-4">
-            <p class="text-sm text-white text-center mb-2">Harga: Rp{{ number_format($item->price, 0, ',', '.') }}</p>
-            <p class="text-sm text-white text-center mb-2">Stok: {{ $item->stok }}</p>
-            <p class="text-sm text-white text-center mb-4">Deskripsi: {{ $item->description }}</p>
-            <button onclick="closeModal('{{ $item->id }}')" class="block w-full bg-yellow-500 text-white py-2 rounded-md">
-                Tutup
-            </button>
-        </div>
-    </div>
+                         <!-- Modal Detail Produk -->
+                         <div id="modal-{{ $item->id }}" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                            <div class="bg-white rounded-lg shadow-lg p-6 w-96 relative">
+                                <!-- Close Button -->
+                                <button onclick="closeModal('{{ $item->id }}')" 
+                                        class="absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded-full">
+                                    &times;
+                                </button>
+                                
+                                <!-- Product Details -->
+                                <h3 class="text-lg font-bold mb-4 text-center">{{ $item->name }}</h3>
+                                <img src="{{ asset('uploads/' . $item->image) }}" alt="{{ $item->name }}" class="w-full h-48 object-cover rounded-md mb-4">
+                                <p class="text-sm text-gray-700 mb-2"><strong>Deskripsi:</strong> {{ $item->description }}</p>
+                                <p class="text-sm text-gray-700 mb-2"><strong>Harga:</strong> Rp{{ number_format($item->price, 0, ',', '.') }}</p>
+                                <p class="text-sm text-gray-700 mb-4"><strong>Stok:</strong> {{ $item->stok }}</p>
+                                
+                                <!-- Close Button -->
+                                <button onclick="closeModal('{{ $item->id }}')" 
+                                        class="w-full bg-yellow-500 text-white py-2 rounded-md font-semibold hover:bg-yellow-600 transition-colors duration-300">
+                                    Tutup
+                                </button>
+                            </div>
+                        </div>
+
+                        
+                    @endforeach
+                </div>
             @endforeach
         </div>
-        <br>
+    </div>
 
-        <!-- Contact Us Section -->
-        <div class="relative py-12 bg-cover bg-center" style="background-image: url('{{ asset('img/background.jpg') }}');">
-            <div class="absolute inset-0 bg-black opacity-50"></div>
-            <div class="relative z-10 max-w-7xl mx-auto py-16 px-6 lg:px-8 text-white">
-                <h1 class="text-3xl font-bold text-center mb-6">Sewa Kebutuhan Outdoor Kamu Sekarang!</h1>
-                <p class="text-lg text-center mb-8">
-                    Jika Anda mau menyewa untuk kebutuhan outdoor, silakan hubungi kami dan mengisi formulir pemesanan di bawah ini atau kunjungi kami di lokasi kami.
-                </p>
+    <!-- Contact Us Section -->
+    <div class="relative py-12 bg-cover bg-center" style="background-image: url('{{ asset('img/background.jpg') }}');">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="relative z-10 max-w-7xl mx-auto py-16 px-6 lg:px-8 text-white">
+            <h1 class="text-3xl font-bold text-center mb-6">Sewa Kebutuhan Outdoor Kamu Sekarang!</h1>
+            <p class="text-lg text-center mb-8">
+                Jika Anda mau menyewa untuk kebutuhan outdoor, silakan hubungi kami dan mengisi formulir pemesanan di bawah ini atau kunjungi kami di lokasi kami.
+            </p>
 
-                    <div class="flex flex-col gap-8 py-12">
-                    <!-- Form Pemesanan (Bagian Atas) -->
-                    <div class="w-full bg-gray-900 p-8 rounded-lg shadow-lg">
-                        <form method="POST" action="{{ route('outdoor.placeOrder') }}" enctype="multipart/form-data">
-                            @csrf
-                            <p class="text-2xl text-center mb-6">
-                                Form Pemesanan
-                            </p>
+            <!-- Order Form -->
+            <div class="w-full bg-gray-900 bg-opacity-75 p-8 rounded-lg shadow-lg">
+                <form method="POST" action="{{ route('outdoor.placeOrder') }}" enctype="multipart/form-data">
+                    @csrf
+                    <p class="text-2xl text-center mb-6">Form Pemesanan</p>
 
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-white mb-2">Pilih Barang</label>
+                    <!-- Select Items -->
+                    <div class="mb-4">
+                    <label class="block text-sm font-medium text-white mb-2">Pilih Barang</label>
+                    <div>
+                         <small class="text-gray-400">Centang barang yang ingin Anda pilih.</small>
+                    </div>
+                    <div class="space-y-6">
+                        @foreach ($groupedItems as $kategori => $items)
+                            <!-- Kategori -->
+                            <div>
+                                <h3 class="text-lg font-bold text-yellow-500 mb-4">{{ $kategori }}</h3>
+                                
+                                <!-- Barang dalam kategori -->
                                 <div class="space-y-2">
-                                    @foreach ($outdoorItems as $item)
+                                    @foreach ($items as $item)
                                         <div class="flex items-center">
-                                            <!-- Checkbox untuk memilih barang -->
+                                            <!-- Checkbox untuk barang -->
                                             <input 
                                                 type="checkbox" 
                                                 id="item-{{ $item->id }}" 
@@ -100,8 +129,11 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                <small class="text-gray-400">Centang barang yang ingin Anda pilih.</small>
                             </div>
+                        @endforeach
+                    </div>
+                <div  class="w-full bg-gray-900 p-8 rounded-lg shadow-lg">
+
 
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-white mb-1" for="phone">No HP</label>
@@ -137,6 +169,7 @@
                                 <label class="block text-sm font-medium text-white mb-1" for="tanggal_pengembalian">Tanggal Pengembalian</label>
                                 <input type="date" id="tanggal_pengembalian" name="tanggal_pengembalian" class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg focus:outline-none">
                             </div>
+                </div>
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-white mb-1" for="total_price_display">Total Harga</label>
@@ -209,13 +242,15 @@
         }
     });
 
+    // Function to open modal
     function openModal(id) {
-        document.getElementById(`modal-${id}`).classList.remove('hidden');
-    }
+            document.getElementById(`modal-${id}`).classList.remove('hidden');
+        }
 
-    function closeModal(id) {
-        document.getElementById(`modal-${id}`).classList.add('hidden');
-    }
+        // Function to close modal
+        function closeModal(id) {
+            document.getElementById(`modal-${id}`).classList.add('hidden');
+        }
     </script>
 
 </x-app-layout>

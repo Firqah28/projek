@@ -48,6 +48,7 @@ Route::middleware(['auth',RoleMiddleware::class.':admin'])->group(function () {
 Route::get('/history', [OutdoorController::class, 'history'])->middleware('auth')->name('history');
 
 Route::patch('/update-status/{id}', [OrderController::class, 'updateStatus'])->name('update.status');
+Route::get('/sewa', [OutdoorController::class, 'showOutdoorItemsCategory'])->name('sewa');
 
 
 require __DIR__.'/auth.php';

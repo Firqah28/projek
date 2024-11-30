@@ -21,19 +21,31 @@
              <br>
             <h3 class="text-2xl font-bold text-center">Penawaran Terbaik</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-                <div class="relative">
-                    <img src="{{ asset('img/paket1.jpg') }}" alt="Tenda Camping" class="w-full h-full object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out">
-                </div>
-                <div class="relative">
-                    <img src="{{ asset('img/paket2.jpg') }}" alt="Sleeping Bag" class="w-full h-full object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out">
-                </div>
-                <div class="relative">
-                    <img src="{{ asset('img/paket3.jpg') }}" alt="Jaket Outdoor" class="w-full h-full object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out">
-                </div>
-                <div class="relative">
-                    <img src="{{ asset('img/paket4.jpg') }}" alt="Perlengkapan Camping" class="w-full h-full object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out">
-                </div>
-            </div>
+    <div class="relative">
+        <!-- Gambar dengan Navigasi -->
+        <a href="{{ route('sewa') }}">
+            <img src="{{ asset('img/paket1.jpg') }}" alt="Tenda Camping" class="w-full h-full object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out">
+        </a>
+    </div>
+    <div class="relative">
+        <!-- Gambar dengan Navigasi -->
+        <a href="{{ route('sewa') }}">
+            <img src="{{ asset('img/paket2.jpg') }}" alt="Sleeping Bag" class="w-full h-full object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out">
+        </a>
+    </div>
+    <div class="relative">
+        <!-- Gambar dengan Navigasi -->
+        <a href="{{ route('sewa') }}">
+            <img src="{{ asset('img/paket3.jpg') }}" alt="Jaket Outdoor" class="w-full h-full object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out">
+        </a>
+    </div>
+    <div class="relative">
+        <!-- Gambar dengan Navigasi -->
+        <a href="{{ route('sewa') }}">
+            <img src="{{ asset('img/paket4.jpg') }}" alt="Perlengkapan Camping" class="w-full h-full object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out">
+        </a>
+    </div>
+</div>
 
                     <div class="text-center mt-8">
                         <a href="/sewa" class="bg-yellow-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-yellow-700">

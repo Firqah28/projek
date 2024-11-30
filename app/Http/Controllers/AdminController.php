@@ -29,6 +29,7 @@ class AdminController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'stok' => 'required|integer|min:0',
+            'kategori' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10048',
         ]);
 
@@ -44,6 +45,7 @@ class AdminController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'stok' => $request->stok,
+            'kategori' => $request->kategori,
             'image' => $imagePath,
         ]);
 
@@ -73,6 +75,7 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
             'stok' => 'required|integer',
+            'kategori' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi gambar
         ]);
 
@@ -83,6 +86,7 @@ class AdminController extends Controller
         $item->name = $request->name;
         $item->price = $request->price;
         $item->stok = $request->stok;
+        $item->kategori = $request->kategori;
 
         // Jika ada gambar baru, proses upload
         if ($request->hasFile('image')) {

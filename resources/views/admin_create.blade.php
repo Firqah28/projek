@@ -20,10 +20,22 @@
             </div>
 
             <div class="mb-4">
-                <label for="stok" class="block text-white font-semibold mb-2">Stock:</label>
-                <input type="number" name="stok" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                <label for="stok" class="block text-white font-semibold mb-2">Stok:</label>
+                <input type="number" name="stok" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
             </div>
 
+            <!-- Dropdown Kategori -->
+            <div class="mb-4">
+                <label for="kategori" class="block text-white font-semibold mb-2">Kategori:</label>
+                <select name="kategori" id="kategori" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    <option value="Paket">Paket</option>
+                    <option value="Pakaian">Pakaian</option>
+                    <option value="Peralatan Masak">Peralatan Masak</option>
+                    <option value="Perlengkapan">Perlengkapan</option>
+                </select>
+            </div>
+
+            <!-- Upload Gambar -->
             <div class="mb-4">
                 <label for="image" class="block text-white font-semibold mb-2">Upload Gambar:</label>
                 <input type="file" name="image" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">

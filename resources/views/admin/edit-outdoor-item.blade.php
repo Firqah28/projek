@@ -42,6 +42,17 @@
                                required>
                     </div>
 
+                    <!-- Dropdown Kategori -->
+                    <div>
+                        <label for="kategori" class="block text-sm font-medium text-gray-700 text-center">Kategori</label>
+                        <select name="kategori" class="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-gray-800 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                            <option value="Paket" {{ old('kategori', $item->kategori) == 'Paket' ? 'selected' : '' }}>Paket</option>
+                            <option value="Pakaian" {{ old('kategori', $item->kategori) == 'Pakaian' ? 'selected' : '' }}>Pakaian</option>
+                            <option value="Peralatan Masak" {{ old('kategori', $item->kategori) == 'Peralatan Masak' ? 'selected' : '' }}>Peralatan Masak</option>
+                            <option value="Perlengkapan" {{ old('kategori', $item->kategori) == 'Perlengkapan' ? 'selected' : '' }}>Perlengkapan</option>
+                        </select>
+                    </div>
+
                     <!-- Gambar (jika ada) -->
                     <div>
                         <label for="image" class="block text-sm font-medium text-gray-700 text-center">Gambar Barang</label>
@@ -64,8 +75,6 @@
                     </div>
                 </form>
             </div>
-            
-
         </div>
     </div>
 

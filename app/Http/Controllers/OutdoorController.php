@@ -95,7 +95,14 @@ class OutdoorController extends Controller
         return view('history', compact('orders'));
     }
 
-    
+    public function showOutdoorItemsCategory()
+    {
+        // Ambil semua barang dan kelompokkan berdasarkan kategori
+    $groupedItems = OutdoorItem::all()->groupBy('kategori');
+
+    // Kirim data ke view
+    return view('sewa', compact('groupedItems'));
+    }
     
     
 }
