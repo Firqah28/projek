@@ -50,5 +50,8 @@ Route::get('/history', [OutdoorController::class, 'history'])->middleware('auth'
 Route::patch('/update-status/{id}', [OrderController::class, 'updateStatus'])->name('update.status');
 Route::get('/sewa', [OutdoorController::class, 'showOutdoorItemsCategory'])->name('sewa');
 
+Route::delete('/sewa/{id_sewa}', [OutdoorController::class, 'destroy'])->name('sewa.destroy');
+
+
 
 require __DIR__.'/auth.php';

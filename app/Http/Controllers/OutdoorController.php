@@ -31,6 +31,13 @@ class OutdoorController extends Controller
             'tanggal_pengembalian' => 'required|date', // Tanggal pengembalian
         ]);
 
+        $tanggalPemesanan = new \DateTime($request->tanggal_pemesanan);
+        $tanggalPengembalian = new \DateTime($request->tanggal_pengembalian);
+        $selisihHari = $tanggalPemesanan->diff($tanggalPengembalian)->days;
+
+        $basePrice = 15000; // Harga dasar per hari
+        $totalHarga = $selisihHari * $basePrice;
+
         $userId = auth()->id(); // Automatically fetch authenticated user ID
 
         $buktiPembayaranPath = null;
@@ -106,6 +113,24 @@ class OutdoorController extends Controller
     // Kirim data ke view
     return view('sewa', compact('groupedItems'));
     }
-    
-    
+
+    public function destroy($id_sewa)
+    {
+        try {
+            // Cari data pesanan berdasarkan id_sewa
+            $order = DB::table('sewa')->where('id_sewa', $id_sewa)->first();
+            if (!$order) {
+                return redirect()->back()->with('error', 'Pesanan tidak ditemukan.');
+            }
+
+            // Hapus data dari tabel `sewa`
+            DB::table('sewa')->where('id_sewa', $id_sewa)->delete();
+
+            // Redirect dengan pesan sukses
+            return redirect()->back()->with('success', 'Pesanan berhasil dihapus.');
+        } catch (\Exception $e) {
+            // Redirect dengan pesan error jika terjadi kesalahan
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
 }

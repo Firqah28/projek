@@ -82,7 +82,7 @@
 
             <!-- Order Form -->
             <div class="w-full bg-gray-900 bg-opacity-75 p-8 rounded-lg shadow-lg">
-            <form method="POST" action="{{ route('outdoor.placeOrder') }}" enctype="multipart/form-data" id="orderForm">
+            <form id="orderForm" method="POST" action="{{ route('outdoor.placeOrder') }}" enctype="multipart/form-data" id="orderForm">
     @csrf
     <p class="text-2xl text-center mb-6">Form Pemesanan</p>
 
@@ -192,9 +192,14 @@
         <!-- Total Harga -->
         <div class="mb-4">
             <label class="block text-sm font-medium text-white mb-1" for="total_price_display">Total Harga</label>
-            <input type="text" id="total_price_display" readonly 
-                class="w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded-lg focus:outline-none" placeholder="Total Harga">
-            <input type="hidden" id="total_price" name="total_harga">
+            <input
+                type="text"
+                id="total_price_display"
+                readonly
+                class="w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded-lg focus:outline-none"
+                placeholder="Total Harga"
+            />
+            <input type="hidden" id="total_price" name="total_harga" />
         </div>
 
         <!-- Tombol Submit -->
@@ -317,6 +322,72 @@ document.querySelector('#metode_pembayaran').addEventListener('change', function
         buktiPembayaranContainer.style.display = 'none';
     }
 });
+
+document.getElementById('orderForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // Cegah pengiriman form langsung
+
+        // Tampilkan konfirmasi menggunakan SweetAlert2
+        Swal.fire({
+            title: 'Konfirmasi Pesanan',
+            text: 'Apakah Anda yakin ingin mengirim pesanan ini?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Kirim',
+            cancelButtonText: 'Batal',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Pesanan Diproses',
+                    text: 'Pesanan Anda sedang diproses.',
+                    icon: 'success',
+                    timer: 3000,
+                    showConfirmButton: false,
+                });
+
+                // Kirim form setelah konfirmasi
+                this.submit();
+            } else {
+                Swal.fire({
+                    title: 'Pesanan Dibatalkan',
+                    text: 'Anda membatalkan pengiriman pesanan.',
+                    icon: 'info',
+                    timer: 3000,
+                    showConfirmButton: false,
+                });
+            }
+        });
+    });
+
+    document.getElementById('tanggal_pemesanan').addEventListener('change', updateTotalPrice);
+    document.getElementById('tanggal_pengembalian').addEventListener('change', updateTotalPrice);
+
+    function updateTotalPrice() {
+        const tanggalPemesanan = document.getElementById('tanggal_pemesanan').value;
+        const tanggalPengembalian = document.getElementById('tanggal_pengembalian').value;
+        const totalPriceDisplay = document.getElementById('total_price_display');
+        const totalPriceInput = document.getElementById('total_price');
+
+        if (tanggalPemesanan && tanggalPengembalian) {
+            // Hitung selisih hari
+            const date1 = new Date(tanggalPemesanan);
+            const date2 = new Date(tanggalPengembalian);
+            const timeDifference = date2 - date1;
+            const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+            
+
+            // Ambil harga per hari dari data barang (misalnya Rp 15.000)
+            const basePrice = 15000; // Anda dapat menyesuaikan nilai ini
+            const totalPrice = daysDifference * basePrice;
+
+            // Update tampilan harga
+            totalPriceDisplay.value = totalPrice.toLocaleString('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+            });
+            totalPriceInput.value = totalPrice;
+        }
+    }
 
     </script>
 
